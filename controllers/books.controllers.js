@@ -1,4 +1,5 @@
-import { Books } from "../models/books.models";
+import { Books } from "../models/books.models.js";
+import { Reviews } from "../models/review.models.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 const getAllBooks = async () => {
@@ -51,30 +52,12 @@ const getBooksbyTitle = async (req,res) => {
     }
 }
 
-const getBookReview = async (req,res) => {
-    const id = req.params.id;
-    if(!id) throw new ApiError(401,"Please select a book for reading its reviews");
-    try {
-        const bookReview = await Books.find({
-            isbn : id
-        }) ;
-        if(!bookReview || bookReview.length === 0) return res.status(200)
-                                                              .json(new ApiResponse(200,null,`There are no books available with the id ${id}`));
-
-
-        return res
-                  .status(200)
-                  .json(new ApiResponse(200 , bookReview.review , "Displayed the book review for the book"));
-    } catch (error) {
-        console.log("error while displaying reviews",error);
-        throw new ApiError(400,"error while displaying reviews");      
-    }
-}
 
 
 
 
 
-export {getAllBooks , getISBNBook , getBooksbyAuthor , getBooksbyTitle , getBookReview};
+
+export {getAllBooks , getISBNBook , getBooksbyAuthor , getBooksbyTitle};
 
 

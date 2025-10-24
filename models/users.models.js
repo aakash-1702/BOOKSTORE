@@ -1,5 +1,6 @@
 import mongoose , {Schema} from "mongoose";
-import { Books } from "./books.models";
+import { Books } from "./books.models.js";
+import bcrypt from "bcrypt";
 
 const userSchema =  new Schema({
     userName : {
@@ -25,16 +26,30 @@ const userSchema =  new Schema({
         type : String,
         default : "USER"
     },
-    reviewHistory : [{
-        Books : {
-            type : Schema.Types.ObjectId,
-            ref : "Books"
-        }
+    reviewId :[ {
+        type : Schema.Types.ObjectId,
+        ref : "Reviews"
     }]
-
 });
 
 
-const Users = mongoose.model(Users,userSchema, "users");
+const Users = mongoose.model("Users",userSchema, "users");
+
+userSchema.pre("save",async function(next){
+    if(!this.isModified("password")) return next(); 
+    
+    this.password =  await bcrypt.hash(this.password,10);
+    console.log("hashedPassword" , this.password);
+    next();
+});
+
+
+userSchema.methods.generateAccessToken = async function(){
+
+}
+
+
+
+
 
 export {Users};

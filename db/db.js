@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const connectDB = async () => {
-  mongoose
+  await mongoose
     .connect(`${process.env.MONGODB_URL}/${process.env.MONGODB_NAME}`)
     .then(() => console.log("MongoDB has been connected"))
     .catch((e) => {

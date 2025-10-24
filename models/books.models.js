@@ -16,16 +16,14 @@ const bookSchema = new Schema({
         required : true
     },
     isbn : {
-        type : Number,
+        type : String,
         required : true,
         unique : true,
     },
-    review : [{
-        Users : {
-            type : Schema.Types.ObjectId,
-            path : "Users"
-        }
-    }] 
+    reviewId : [{
+        type : Schema.Types.ObjectId,
+        ref : "Reviews"
+    }]
 });
 
 const Books = mongoose.model("Book",bookSchema,"books");
